@@ -59,11 +59,14 @@ class imooc{
           //p($this->assign);exit();
           if(is_file($file)){
                  //p($this->assign);exit();
-                 extract($this->assign);
-                 include $file;
-          }else{
-
-               p("1");
+                 \Twig_Autoloader::register();
+                 $loader = new \Twig_Loader_Filesystem(APP.'/views');
+                 $twig = new \Twig_Environment($loader,array(
+                     'cache' => MVC.'/log/twig',
+                     'debug' => DEBUG
+                  ));
+                 $template = $twig->loadTemplate('index.html');
+                  $template->display($this->assign?$this->assign:'');
           }
       }
 }
